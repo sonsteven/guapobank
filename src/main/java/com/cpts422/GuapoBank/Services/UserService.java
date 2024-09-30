@@ -12,12 +12,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
-
     public User authenticate(String username, String password) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
+        Optional<User> userOpt = userRepository.findByUsernameIgnoreCase(username);
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
             return userOpt.get();
         }

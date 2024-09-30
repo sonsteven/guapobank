@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Home</title>
+</head>
+<body>
+<h2>THIS IS THE ADMIN PAGE</h2>
+<h3>Username: <span th:text="${loggedInUser.username}"></span></h3>
+<a href="/logout">Logout</a>
+</body>
+</html>
