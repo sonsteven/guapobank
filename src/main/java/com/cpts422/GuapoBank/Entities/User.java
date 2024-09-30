@@ -81,4 +81,11 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public void createTransaction(Double amount, Account sender, Account recipient) {
+        if (amount >= sender.getBalance()) {
+            System.out.println("Invalid transaction: cannot send more funds than you have.");
+        }
+        Transaction transaction = new Transaction(amount, sender, recipient);
+    }
 }
