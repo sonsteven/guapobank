@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Entity
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,10 @@ public class Transaction {
 
     @ManyToOne
     private Account recipientAccount;
+
+    public Transaction() {
+        this.transactionDate = LocalDateTime.now();
+    }
 
     public Transaction(Double amount, Account senderAccount, Account recipientAccount) {
         this.amount = amount;

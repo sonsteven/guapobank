@@ -35,5 +35,8 @@ public class InitialSetup implements CommandLineRunner {
         userRepository.save(adminUser);
 
         System.out.println("Initial users have been created and loaded.");
+        System.out.println(userRepository);
+        System.out.println(normalUser);
+        System.out.println(adminUser);
     }
 }
