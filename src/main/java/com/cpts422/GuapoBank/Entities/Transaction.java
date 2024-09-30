@@ -19,8 +19,7 @@ public class Transaction {
     @ManyToOne
     private Account recipientAccount;
 
-    public Transaction(Long id, Double amount, LocalDateTime transactionDate, Account senderAccount, Account recipientAccount) {
-        this.id = id;
+    public Transaction(Double amount, Account senderAccount, Account recipientAccount) {
         this.amount = amount;
         this.transactionDate = LocalDateTime.now();
         this.senderAccount = senderAccount;
