@@ -1,6 +1,8 @@
 package com.cpts422.GuapoBank.Controllers;
 
 import com.cpts422.GuapoBank.Entities.User;
+import com.cpts422.GuapoBank.Repositories.AccountRepository;
+import com.cpts422.GuapoBank.Services.AccountService;
 import com.cpts422.GuapoBank.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,11 @@ import jakarta.servlet.http.HttpSession;
 public class HomeController {
     @Autowired
     private UserService userService;
+    private AccountService accountService;
 
-    public HomeController(UserService userService) {
+    public HomeController(UserService userService, AccountService accountService) {
         this.userService = userService;
+        this.accountService = accountService;
     }
 
     // Handles routing for the root URL, redirects based on user login status.
@@ -76,6 +80,7 @@ public class HomeController {
             return "redirect:/login";
         }
         model.addAttribute("loggedInUser", loggedInUser);
+        model.addAttribute("accounts", accountService.findByUser(loggedInUser));
         return "Home";
     }
 

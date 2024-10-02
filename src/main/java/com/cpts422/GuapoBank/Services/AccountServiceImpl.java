@@ -1,10 +1,14 @@
 package com.cpts422.GuapoBank.Services;
 
 import com.cpts422.GuapoBank.Entities.Account;
+import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Repositories.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AccountServiceImpl implements AccountService {
-
+    @Autowired
     private AccountRepository accountRepository;
 
     public AccountServiceImpl(AccountRepository accountRepository) {
@@ -19,5 +23,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account save(Account account) {
         return accountRepository.save(account);
+    }
+
+    @Override
+    public Iterable<Account> findByUser(User user) {
+        return accountRepository.findByUser(user);
     }
 }

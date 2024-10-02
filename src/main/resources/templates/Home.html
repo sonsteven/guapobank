@@ -7,6 +7,22 @@
 <body>
   <h2>THIS IS THE USER PAGE</h2>
   <h3>Username: <span th:text="${loggedInUser.username}"></span></h3>
+  <table style="border: solid">
+      <thead>
+      <tr>
+          <th>Number</th>
+          <th>Type</th>
+          <th>Balance</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="account: ${accounts}">
+          <td th:text="${account.getAccountNumber()}">CPTS101</td>
+          <td th:text="${account.getAccountType()}">Intro to EECS</td>
+          <td th:text="${account.getBalance()}">subu</td>
+      </tr>
+      </tbody>
+  </table>
   <a href="/logout">Logout</a>
 </body>
 </html>
