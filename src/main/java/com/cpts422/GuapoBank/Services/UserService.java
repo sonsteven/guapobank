@@ -7,4 +7,6 @@ public interface UserService {
     public Iterable<User> findAll();
 
     public User save(User user);
+
+    public User authenticate(String username, String password);
 }

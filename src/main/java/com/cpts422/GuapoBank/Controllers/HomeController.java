@@ -1,7 +1,7 @@
 package com.cpts422.GuapoBank.Controllers;
 
 import com.cpts422.GuapoBank.Entities.User;
-import com.cpts422.GuapoBank.Services.UserServiceImpl;
+import com.cpts422.GuapoBank.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,11 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class HomeController {
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
+
+    public HomeController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Handles routing for the root URL, redirects based on user login status.
     @GetMapping("/")
@@ -48,7 +52,7 @@ public class HomeController {
     // Handles POST request for user authentication, redirects based on successful auth or invalid credentials.
     @PostMapping("/login")
     public String authenticate(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
-        User user = userServiceImpl.authenticate(username, password);
+        User user = userService.authenticate(username, password);
         if (user != null) {
             session.setAttribute("loggedInUser", user);
             if (user.getRole().equals("Admin")) {
