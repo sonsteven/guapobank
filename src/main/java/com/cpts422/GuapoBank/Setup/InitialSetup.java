@@ -1,5 +1,8 @@
 package com.cpts422.GuapoBank.Setup;
 
+import com.cpts422.GuapoBank.Entities.Account;
+import com.cpts422.GuapoBank.Repositories.AccountRepository;
+import com.cpts422.GuapoBank.Repositories.TransactionRepository;
 import com.cpts422.GuapoBank.Repositories.UserRepository;
 import com.cpts422.GuapoBank.Entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitialSetup implements CommandLineRunner {
     private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
-    public InitialSetup(UserRepository userRepository) {
+    public InitialSetup(UserRepository userRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
+        this. transactionRepository = transactionRepository;
     }
 
     @Override
