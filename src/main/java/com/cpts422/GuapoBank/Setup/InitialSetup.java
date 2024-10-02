@@ -26,19 +26,11 @@ public class InitialSetup implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // user generation
-        User normalUser = new User();
-        normalUser.setUsername("TestUser");
-        normalUser.setPassword("password");
-        normalUser.setFirstName("UserFirstName");
-        normalUser.setLastName("UserLastName");
-        normalUser.setRole("User");
+        User normalUser = new User("TestUser", "password",
+                "UserFirstName", "UserLastName", "User");
 
-        User adminUser = new User();
-        adminUser.setUsername("TestAdmin");
-        adminUser.setPassword("password");
-        adminUser.setFirstName("AdminFirstName");
-        adminUser.setLastName("AdminLastName");
-        adminUser.setRole("Admin");
+        User adminUser = new User("TestAdmin", "password",
+                "AdminFirstName", "AdminLastName", "Admin");
 
         userRepository.save(normalUser);
         userRepository.save(adminUser);
@@ -60,6 +52,7 @@ public class InitialSetup implements CommandLineRunner {
 
         System.out.println(account1);
         System.out.println(account2);
+
         // transaction generation
     }
 }

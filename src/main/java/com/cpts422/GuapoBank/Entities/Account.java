@@ -15,8 +15,9 @@ public class Account {
     @ManyToOne
     private User user;
 
+    // blank constructor for JPA
     public Account() {
-        
+
     }
 
     public Account(String accountNumber, String accountType, Double balance) {

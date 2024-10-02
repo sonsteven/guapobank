@@ -17,6 +17,23 @@ public class User {
     private String lastName;
     private String role;
 
+    // User can have many Accounts, but an Account can only belong to one User
+    @OneToMany
+    private List<Account> accounts = new ArrayList<>();
+
+    // blank constructor for JPA
+    public User() {
+
+    }
+
+    public User(String username, String password, String firstName, String lastName, String role) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -24,10 +41,6 @@ public class User {
     public Long getId() {
         return id;
     }
-
-    // User can have many Accounts, but an Account can only belong to one User
-    @OneToMany
-    private List<Account> accounts = new ArrayList<>();
 
     public void addAccount(Account account) {
         accounts.add(account);
