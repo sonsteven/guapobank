@@ -16,6 +16,9 @@ public class User {
     private String firstName;
     private String lastName;
     private String role;
+    private boolean vip;
+    private boolean military;
+    private boolean corporate;
 
     // User can have many Accounts, but an Account can only belong to one User
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -26,12 +29,26 @@ public class User {
 
     }
 
+    // constructor without special statuses, for admin accounts
     public User(String username, String password, String firstName, String lastName, String role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+    }
+
+    // constructor with special statuses, for customer accounts
+    public User(String username, String password, String firstName, String lastName, String role,
+                boolean vip, boolean military, boolean corporate) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.vip = vip;
+        this.military = military;
+        this.corporate = corporate;
     }
 
     public void setId(Long id) {
@@ -111,5 +128,29 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
+    }
+
+    public boolean isMilitary() {
+        return military;
+    }
+
+    public void setMilitary(boolean military) {
+        this.military = military;
+    }
+
+    public boolean isCorporate() {
+        return corporate;
+    }
+
+    public void setCorporate(boolean corporate) {
+        this.corporate = corporate;
     }
 }

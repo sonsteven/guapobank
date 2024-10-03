@@ -27,7 +27,7 @@ public class InitialSetup implements CommandLineRunner {
 
         // user generation
         User normalUser = new User("TestUser", "password",
-                "UserFirstName", "UserLastName", "User");
+                "UserFirstName", "UserLastName", "User", false, false, false);
 
         User adminUser = new User("TestAdmin", "password",
                 "AdminFirstName", "AdminLastName", "Admin");

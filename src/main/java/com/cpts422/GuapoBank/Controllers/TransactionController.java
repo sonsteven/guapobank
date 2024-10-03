@@ -65,9 +65,23 @@ public class TransactionController {
             transferFee = amount * 0.025;
         }
         else {
-            transferFee = amount * 0.02;
+            if (sender.getUser().isCorporate()) {
+                transferFee = amount * 0.01;
+            }
+            else {
+                transferFee = amount * 0.02;
+            }
         }
 
+        if (sender.getUser().isMilitary() && sender.getUser().isVip()) {
+            transferFee *= 0.85;
+        }
+        else if (sender.getUser().isMilitary()) {
+            transferFee *= 0.90;
+        }
+        else if (sender.getUser().isVip()) {
+            transferFee *= 0.90;
+        }
 
 
         sender.setBalance(sender.getBalance() - transferFee - amount);
