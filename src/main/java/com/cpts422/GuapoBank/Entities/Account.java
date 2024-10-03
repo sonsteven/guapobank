@@ -8,9 +8,8 @@ import jakarta.persistence.ManyToOne;
 public class Account {
     @Id
     private Long id;
-    private String accountNumber;
     private String accountType;
-    private Double balance;
+    private Double balance = 0.0;
 
     // User can have many Accounts, but each Account can only belong to one User.
     @ManyToOne
@@ -30,14 +29,6 @@ public class Account {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
     }
 
     public String getAccountType() {

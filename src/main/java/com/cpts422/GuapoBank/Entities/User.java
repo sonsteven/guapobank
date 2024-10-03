@@ -34,6 +34,11 @@ public class User {
         account.setUser(this);
     }
 
+    public void removeAccount(Account account) {
+        accounts.remove(account);
+        account.setUser(null);
+    }
+
     public List<Account> getAccounts() {
         return accounts;
     }
