@@ -83,6 +83,7 @@ public class HomeController {
         }
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("accounts", accountService.findByUser(loggedInUser));
+        model.addAttribute("transaction", new Transaction());
         return "Home";
     }
 
