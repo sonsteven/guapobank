@@ -18,7 +18,7 @@ public class User {
     private String role;
 
     // User can have many Accounts, but an Account can only belong to one User
-    @OneToMany
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Account> accounts = new ArrayList<>();
 
     // blank constructor for JPA
