@@ -9,6 +9,7 @@ public class Account {
     private Long id;
     private String accountType;
     private Double balance;
+    private boolean frozen;
 
     // User can have many Accounts, but each Account can only belong to one User.
     @ManyToOne
@@ -16,12 +17,13 @@ public class Account {
 
     // blank constructor for JPA
     public Account() {
-
+        this.frozen = false;
     }
 
     public Account(String accountType, Double balance) {
         this.accountType = accountType;
         this.balance = balance;
+        this.frozen = false;
     }
 
     public User getUser() {
@@ -54,5 +56,13 @@ public class Account {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    public boolean isFrozen() {
+        return frozen;
+    }
+
+    public void setFrozen(boolean frozen) {
+        this.frozen = frozen;
     }
 }
