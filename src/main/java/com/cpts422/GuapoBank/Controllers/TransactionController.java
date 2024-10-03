@@ -48,13 +48,30 @@ public class TransactionController {
             // error
         }
 
-        double transferFee = transaction.getAmount() * 0.02;
-        if (transferFee > 50) {
-            transferFee = 50;
+        Double amount = transaction.getAmount();
+
+        // calculate transfer fee
+        Double transferFee = 0.0d;
+        if (amount <= 500) {
+            transferFee = amount * 0.05;
+        }
+        else if (amount <= 1000) {
+            transferFee = amount * 0.04;
+        }
+        else if (amount <= 3000) {
+            transferFee = amount * 0.03;
+        }
+        else if (amount <= 5000) {
+            transferFee = amount * 0.025;
+        }
+        else {
+            transferFee = amount * 0.02;
         }
 
-        sender.setBalance(sender.getBalance() - transferFee - transaction.getAmount());
-        recipient.setBalance(recipient.getBalance() + transaction.getAmount());
+
+
+        sender.setBalance(sender.getBalance() - transferFee - amount);
+        recipient.setBalance(recipient.getBalance() + amount);
         transaction.setSenderAccount(sender);
         transaction.setRecipientAccount(recipient);
         transactionService.save(transaction);
