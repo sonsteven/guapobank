@@ -1,8 +1,11 @@
 package com.cpts422.GuapoBank.Services;
 
+import com.cpts422.GuapoBank.Entities.Account;
 import com.cpts422.GuapoBank.Entities.Transaction;
 import com.cpts422.GuapoBank.Repositories.TransactionRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     private TransactionRepository transactionRepository;
@@ -19,5 +22,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction save(Transaction transaction) {
         return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public Iterable<Transaction> findBySenderAccount(Account account) {
+        return transactionRepository.findBySenderAccount(account);
     }
 }

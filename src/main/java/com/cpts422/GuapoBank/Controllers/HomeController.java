@@ -1,5 +1,6 @@
 package com.cpts422.GuapoBank.Controllers;
 
+import com.cpts422.GuapoBank.Entities.Transaction;
 import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Repositories.AccountRepository;
 import com.cpts422.GuapoBank.Services.AccountService;
@@ -40,7 +41,8 @@ public class HomeController {
 
     // Handles GET request for the Login page, redirects based on user login status.
     @GetMapping("/login")
-    public String login(HttpSession session) {
+    public String login(HttpSession session, Model model) {
+        // model.addAttribute("transaction", new Transaction());
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser != null) {
             if (loggedInUser.getRole().equals("Admin")) {

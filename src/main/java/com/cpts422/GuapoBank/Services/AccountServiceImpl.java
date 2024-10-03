@@ -6,6 +6,8 @@ import com.cpts422.GuapoBank.Repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
@@ -28,5 +30,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Iterable<Account> findByUser(User user) {
         return accountRepository.findByUser(user);
+    }
+
+    @Override
+    public Optional<Account> findById(Long id) {
+        return accountRepository.findById(id);
     }
 }
