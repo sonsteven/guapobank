@@ -49,6 +49,7 @@
           <th>Sender</th>
           <th>Recipient</th>
           <th>Amount</th>
+          <th>Date</th>
       </tr>
       </thead>
       <tbody>
@@ -56,6 +57,7 @@
           <td th:text="${transaction.getSenderAccount().getId()}">sender</td>
           <td th:text="${transaction.getRecipientAccount().getId()}">recipient</td>
           <td th:text="'$' + ${#numbers.formatDecimal(transaction.getAmount(), 1, 2)}">3.50</td>
+          <td th:text="${transaction.getTransactionDate()}">Now</td>
       </tr>
       </tbody>
   </table>
