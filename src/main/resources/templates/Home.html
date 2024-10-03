@@ -17,29 +17,47 @@
       </thead>
       <tbody>
       <tr th:each="account: ${accounts}">
-          <td th:text="${account.getId()}">CPTS101</td>
-          <td th:text="${account.getAccountType()}">Intro to EECS</td>
-          <td th:text="${account.getBalance()}">subu</td>
+          <td th:text="${account.getId()}">123</td>
+          <td th:text="${account.getAccountType()}">checking</td>
+          <td th:text="${account.getBalance()}">500.00</td>
       </tr>
       </tbody>
   </table>
   <a href="/logout">Logout</a>
 
-<!--  <h1>Create a New Transaction</h1>-->
-<!--  <form action="#" th:action="@{/createTransaction}" th:object="${transaction}" method="post">-->
-<!--      <label for="amount">Amount:</label>-->
-<!--      <input type="number" id="amount" th:field="*{amount}" step="0.01" required />-->
-<!--      <br/>-->
+  <h1>Create a New Transaction</h1>
+  <form action="#" th:action="@{/createTransaction}" th:object="${transaction}" method="post">
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" th:field="*{amount}" step="0.01" min="0.01" required />
+      <br/>
 
-<!--      <label for="sender">Sender Account ID:</label>-->
-<!--      <input type="number" id="sender" th:field="*{sender.id}" required />-->
-<!--      <br/>-->
+      <label for="senderAccount">Sender Account ID:</label>
+      <input type="number" id="senderAccount" th:field="*{senderAccount.id}" min="1" required />
+      <br/>
 
-<!--      <label for="recipient">Recipient Account ID:</label>-->
-<!--      <input type="number" id="recipient" th:field="*{recipient.id}" required />-->
-<!--      <br/>-->
+      <label for="recipientAccount">Recipient Account ID:</label>
+      <input type="number" id="recipientAccount" th:field="*{recipientAccount.id}" min="1" required />
+      <br/>
 
-<!--      <button type="submit">Submit</button>-->
-<!--  </form>-->
+      <button type="submit">Submit</button>
+  </form>
+
+  <h1>Transaction History</h1>
+  <table style="border: solid">
+      <thead>
+      <tr>
+          <th>Sender</th>
+          <th>Recipient</th>
+          <th>Amount</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="transaction: ${transactionHistory}">
+          <td th:text="${transaction.getSenderAccount().getId()}">sender</td>
+          <td th:text="${transaction.getRecipientAccount().getId()}">recipient</td>
+          <td th:text="'$' + ${#numbers.formatDecimal(transaction.getAmount(), 1, 2)}">3.50</td>
+      </tr>
+      </tbody>
+  </table>
 </body>
 </html>

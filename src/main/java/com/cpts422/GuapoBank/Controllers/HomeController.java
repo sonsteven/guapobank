@@ -1,9 +1,11 @@
 package com.cpts422.GuapoBank.Controllers;
 
+import com.cpts422.GuapoBank.Entities.Account;
 import com.cpts422.GuapoBank.Entities.Transaction;
 import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Repositories.AccountRepository;
 import com.cpts422.GuapoBank.Services.AccountService;
+import com.cpts422.GuapoBank.Services.TransactionService;
 import com.cpts422.GuapoBank.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +13,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @Controller
 public class HomeController {
     @Autowired
     private UserService userService;
     private AccountService accountService;
+    private TransactionService transactionService;
 
-    public HomeController(UserService userService, AccountService accountService) {
+    public HomeController(UserService userService, AccountService accountService, TransactionService transactionService) {
         this.userService = userService;
         this.accountService = accountService;
+        this.transactionService = transactionService;
     }
 
     // Handles routing for the root URL, redirects based on user login status.
@@ -42,7 +50,6 @@ public class HomeController {
     // Handles GET request for the Login page, redirects based on user login status.
     @GetMapping("/login")
     public String login(HttpSession session, Model model) {
-        // model.addAttribute("transaction", new Transaction());
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser != null) {
             if (loggedInUser.getRole().equals("Admin")) {
@@ -81,8 +88,22 @@ public class HomeController {
         if (loggedInUser == null || loggedInUser.getRole().equals("Admin")) {
             return "redirect:/login";
         }
+        Iterable<Account> accounts = accountService.findByUser(loggedInUser);
         model.addAttribute("loggedInUser", loggedInUser);
-        model.addAttribute("accounts", accountService.findByUser(loggedInUser));
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("transaction", new Transaction());
+
+        List<Transaction> transactionHistory = new ArrayList<Transaction>();
+
+        for (Account account : accounts) {
+            Iterable<Transaction> transactions = (transactionService.findBySenderAccount(account));
+
+            for (Transaction transaction : transactions) {
+                transactionHistory.add(transaction);
+            }
+
+        }
+        model.addAttribute("transactionHistory", transactionHistory);
         return "Home";
     }
 

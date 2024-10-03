@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findBySenderAccount(Account senderAccount);
-    List<Transaction> findByRecipientAccount(Account recipientAccount);
-    List<Transaction> findBySenderAccountAndRecipientAccount(Account senderAccount, Account recipientAccount);
+    Iterable<Transaction> findBySenderAccount(Account senderAccount);
+    Iterable<Transaction> findByRecipientAccount(Account recipientAccount);
+    Iterable<Transaction> findBySenderAccountAndRecipientAccount(Account senderAccount, Account recipientAccount);
 }

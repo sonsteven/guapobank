@@ -48,6 +48,8 @@ public class TransactionController {
             // error
         }
 
+        sender.setBalance(sender.getBalance() - transaction.getAmount());
+        recipient.setBalance(recipient.getBalance() + transaction.getAmount());
         transaction.setSenderAccount(sender);
         transaction.setRecipientAccount(recipient);
         transactionService.save(transaction);
