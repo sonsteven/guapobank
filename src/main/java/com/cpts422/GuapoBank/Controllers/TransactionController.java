@@ -48,12 +48,16 @@ public class TransactionController {
             // error
         }
 
-        sender.setBalance(sender.getBalance() - transaction.getAmount());
+        double transferFee = transaction.getAmount() * 0.02;
+        if (transferFee > 50) {
+            transferFee = 50;
+        }
+
+        sender.setBalance(sender.getBalance() - transferFee - transaction.getAmount());
         recipient.setBalance(recipient.getBalance() + transaction.getAmount());
         transaction.setSenderAccount(sender);
         transaction.setRecipientAccount(recipient);
         transactionService.save(transaction);
-
         return "redirect:/home";
     }
 }
