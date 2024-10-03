@@ -87,16 +87,6 @@ public class HomeController {
         return "Home";
     }
 
-    @GetMapping("/admin/home")
-    public String adminHome(HttpSession session, Model model) {
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser == null || !loggedInUser.getRole().equals("Admin")) {
-            return "redirect:/login";
-        }
-        model.addAttribute("loggedInUser", loggedInUser);
-        return "AdminHome";
-    }
-
     // Handles logout request, ending the session and redirecting to login page.
     @GetMapping("/logout")
     public String logout(HttpSession session) {
