@@ -10,4 +10,6 @@ public interface TransactionService {
     public Transaction save(Transaction transaction);
 
     public Iterable<Transaction> findBySenderAccount(Account account);
+
+    public Iterable<Transaction> findByRecipientAccount(Account account);
 }

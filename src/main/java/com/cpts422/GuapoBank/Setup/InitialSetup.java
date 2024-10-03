@@ -29,33 +29,38 @@ public class InitialSetup implements CommandLineRunner {
         User normalUser = new User("TestUser", "password",
                 "UserFirstName", "UserLastName", "User", false, false, false);
 
+        User normalUser2 = new User("TestUser2", "password",
+                "UserFirstName2", "UserLastName2", "User", false, false, false);
+
         User adminUser = new User("TestAdmin", "password",
                 "AdminFirstName", "AdminLastName", "Admin");
 
         userRepository.save(normalUser);
+        userRepository.save(normalUser2);
         userRepository.save(adminUser);
 
         System.out.println("Initial users have been created and loaded.");
         System.out.println(userRepository);
         System.out.println(normalUser);
+        System.out.println(normalUser2);
         System.out.println(adminUser);
 
         // account generation
         Account account1 = new Account("checking",500.00);
         Account account2 = new Account("savings",1000.00);
+        Account account3 = new Account("checking", 100.00);
 
         normalUser.addAccount(account1);
         normalUser.addAccount(account2);
 
+        normalUser2.addAccount(account3);
+
         accountRepository.save(account1);
         accountRepository.save(account2);
-
-        userRepository.save(normalUser);
-        userRepository.save(adminUser);
+        accountRepository.save(account3);
 
         System.out.println(account1);
         System.out.println(account2);
-
-        // transaction generation
+        System.out.println(account3);
     }
 }

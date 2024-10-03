@@ -29,4 +29,9 @@ public class TransactionServiceImpl implements TransactionService {
     public Iterable<Transaction> findBySenderAccount(Account account) {
         return transactionRepository.findBySenderAccount(account);
     }
+
+    @Override
+    public Iterable<Transaction> findByRecipientAccount(Account account) {
+        return transactionRepository.findByRecipientAccount(account);
+    }
 }

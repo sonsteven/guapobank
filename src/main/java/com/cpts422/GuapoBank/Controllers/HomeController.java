@@ -104,6 +104,11 @@ public class HomeController {
                 transactionHistory.add(transaction);
             }
 
+            transactions = transactionService.findByRecipientAccount(account);
+
+            for (Transaction transaction : transactions) {
+                transactionHistory.add(transaction);
+            }
         }
         model.addAttribute("transactionHistory", transactionHistory);
         return "Home";
