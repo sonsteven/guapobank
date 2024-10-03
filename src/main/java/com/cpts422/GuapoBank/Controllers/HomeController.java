@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -92,6 +93,7 @@ public class HomeController {
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("accounts", accounts);
         model.addAttribute("transaction", new Transaction());
+        model.addAttribute("currentDate", LocalDate.now());
 
         List<Transaction> transactionHistory = new ArrayList<Transaction>();
 
