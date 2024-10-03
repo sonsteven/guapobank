@@ -7,7 +7,6 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String accountNumber;
     private String accountType;
     private Double balance;
 
@@ -20,8 +19,7 @@ public class Account {
 
     }
 
-    public Account(String accountNumber, String accountType, Double balance) {
-        this.accountNumber = accountNumber;
+    public Account(String accountType, Double balance) {
         this.accountType = accountType;
         this.balance = balance;
     }
@@ -40,14 +38,6 @@ public class Account {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
     }
 
     public String getAccountType() {
