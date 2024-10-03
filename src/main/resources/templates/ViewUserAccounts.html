@@ -20,6 +20,11 @@
         <td th:text="${account.id}">Account ID</td>
         <td th:text="${account.accountType}">Account Type</td>
         <td th:text="${account.balance}">Balance</td>
+        <td th:text="${account.frozen ? 'Frozen' : 'Active' }">Status</td>
+        <td>
+            <a th:if="${!account.frozen}" th:href="@{/admin/account/{id}/freeze(id=${account.id})}">Freeze</a>
+            <a th:if="${account.frozen}" th:href="@{/admin/account/{id}/unfreeze(id=${account.id})}">Unfreeze</a>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -7,6 +7,7 @@
 <body>
 <h2>Admin HomePage</h2>
 <h3>Username: <span th:text="${loggedInUser.username}"></span></h3>
+<h3>Date: <span th:text="${currentDate}"></span></h3>
 
 <h3>All Users</h3>
 <table>
@@ -33,6 +34,7 @@
   </tbody>
 </table>
 
+<a href="/admin/applyInterest">ApplyInterest</a>
 <a href="/logout">Logout</a>
 </body>
 </html>

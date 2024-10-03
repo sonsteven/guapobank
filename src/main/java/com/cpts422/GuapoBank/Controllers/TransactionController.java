@@ -41,11 +41,16 @@ public class TransactionController {
             recipient = recipientOpt.get();
         }
         else {
-            // error
+            return "redirect:/home"; // error handling needs to be implemented
+
         }
 
         if (transaction.getAmount() > sender.getBalance()) {
-            // error
+            return "redirect:/home"; // error handling needs to be implemented
+        }
+
+        if (sender.isFrozen() || recipient.isFrozen()) {
+            return "redirect:/home"; // error handling needs to be implemented
         }
 
         Double amount = transaction.getAmount();
