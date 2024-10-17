@@ -34,4 +34,54 @@ public class TransactionServiceImpl implements TransactionService {
     public Iterable<Transaction> findByRecipientAccount(Account account) {
         return transactionRepository.findByRecipientAccount(account);
     }
+
+    @Override
+    public Double calculateTransferFee(Account sender, Double amount) {
+
+        // calculate
+        Double transferFee = 0.0d;
+        if (amount <= 500) {
+            transferFee = amount * 0.05;
+        }
+        else if (amount <= 1000) {
+            transferFee = amount * 0.04;
+        }
+        else if (amount <= 3000) {
+            transferFee = amount * 0.03;
+        }
+        else if (amount <= 5000) {
+            transferFee = amount * 0.025;
+        }
+        else {
+            if (sender.getUser().isCorporate()) {
+                transferFee = amount * 0.01;
+            }
+            else {
+                transferFee = amount * 0.02;
+            }
+        }
+
+        if (sender.getUser().isMilitary() && sender.getUser().isVip()) {
+            transferFee *= 0.85;
+        }
+        else if (sender.getUser().isMilitary()) {
+            transferFee *= 0.90;
+        }
+        else if (sender.getUser().isVip()) {
+            transferFee *= 0.90;
+        }
+
+        return transferFee;
+    }
+
+    @Override
+    public void createTransaction(Account sender, Account recipient, Transaction transaction) {
+        Double amount = transaction.getAmount();
+        Double transferFee = calculateTransferFee(sender, amount);
+        sender.setBalance(sender.getBalance() - transferFee - amount);
+        recipient.setBalance(recipient.getBalance() + amount);
+        transaction.setSenderAccount(sender);
+        transaction.setRecipientAccount(recipient);
+        this.save(transaction);
+    }
 }

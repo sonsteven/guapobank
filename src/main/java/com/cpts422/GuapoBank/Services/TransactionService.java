@@ -12,4 +12,8 @@ public interface TransactionService {
     public Iterable<Transaction> findBySenderAccount(Account account);
 
     public Iterable<Transaction> findByRecipientAccount(Account account);
+
+    public Double calculateTransferFee(Account sender, Double amount);
+
+    public void createTransaction(Account sender, Account recipient, Transaction transaction);
 }
