@@ -29,7 +29,7 @@ public class TransactionController {
     }
 
     @PostMapping("/createTransaction")
-    public String createTransaction(@ModelAttribute("transaction") Transaction transaction) {
+    public String createTransaction(@ModelAttribute("transaction") Transaction transaction) throws Exception {
         Optional<Account> senderOpt = accountService.findById(transaction.getSenderAccount().getId());
         Optional<Account> recipientOpt = accountService.findById(transaction.getRecipientAccount().getId());
 
@@ -53,7 +53,11 @@ public class TransactionController {
             return "redirect:/home"; // error handling needs to be implemented
         }
 
-        transactionService.createTransaction(sender, recipient, transaction);
+        try {
+            transactionService.createTransaction(sender, recipient, transaction);
+        } catch (Exception e) {
+            // TODO: display error message on frontend
+        }
 //        Double amount = transaction.getAmount();
 //
 //        // calculate transfer fee

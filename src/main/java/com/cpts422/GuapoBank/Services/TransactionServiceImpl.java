@@ -6,6 +6,11 @@ import com.cpts422.GuapoBank.Repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
     @Autowired
@@ -75,7 +80,23 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void createTransaction(Account sender, Account recipient, Transaction transaction) {
+    public boolean isOverDailyTransactionLimit(Account account) {
+        Iterable<Transaction> transactions = this.findBySenderAccount(account);
+        List<Transaction> transactionList = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        for (Transaction transaction : transactions) {
+            if (transaction.getTransactionDate().toLocalDate().equals(today)) {
+                transactionList.add(transaction);
+            }
+        }
+        return transactionList.size() >= account.getDailyTransactionLimit();
+    }
+
+    @Override
+    public void createTransaction(Account sender, Account recipient, Transaction transaction) throws Exception {
+        if (this.isOverDailyTransactionLimit(sender)) {
+            throw new Exception("Account has reached the maximum allowed amount of daily transactions.");
+        }
         Double amount = transaction.getAmount();
         Double transferFee = calculateTransferFee(sender, amount);
         sender.setBalance(sender.getBalance() - transferFee - amount);

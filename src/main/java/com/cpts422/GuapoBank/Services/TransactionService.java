@@ -15,5 +15,7 @@ public interface TransactionService {
 
     public Double calculateTransferFee(Account sender, Double amount);
 
-    public void createTransaction(Account sender, Account recipient, Transaction transaction);
+    public boolean isOverDailyTransactionLimit(Account account);
+
+    public void createTransaction(Account sender, Account recipient, Transaction transaction) throws Exception;
 }
