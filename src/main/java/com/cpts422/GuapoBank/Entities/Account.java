@@ -13,6 +13,8 @@ public class Account {
     private Double interestRate;
     private int dailyTransactionLimit;
 
+    private Double minimumBalance;
+
     // User can have many Accounts, but each Account can only belong to one User.
     @ManyToOne
     private User user;
@@ -21,6 +23,7 @@ public class Account {
     public Account() {
         this.frozen = false;
         this.interestRate = 0.0;
+        this.minimumBalance = 50.00;
     }
 
     public Account(String accountType, Double balance) {
@@ -30,9 +33,11 @@ public class Account {
 
         if (this.accountType.equals("savings")) {
             this.interestRate = 0.02;
+            this.minimumBalance = 100.00;
         }
         else {
             this.interestRate = 0.01;
+            this.minimumBalance = 50.00;
         }
 
         // TODO: set daily limit depending on vip, corporate
@@ -86,6 +91,10 @@ public class Account {
     public void setInterestRate(Double interestRate) {
         this.interestRate = interestRate;
     }
+
+    public Double getMinimumBalance() { return minimumBalance; }
+
+    public void setMinimumBalance(Double minimumBalance) { this.minimumBalance = minimumBalance; }
 
     public int getDailyTransactionLimit() {
         return dailyTransactionLimit;
