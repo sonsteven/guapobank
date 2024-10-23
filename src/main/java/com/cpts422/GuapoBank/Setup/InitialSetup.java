@@ -47,6 +47,7 @@ public class InitialSetup implements CommandLineRunner {
 
         // account generation
         Account account1 = new Account("checking",500.00);
+        //account1.setOverdraftOptIn(true);
         Account account2 = new Account("savings",1000.00);
         Account account3 = new Account("checking", 100.00);
 

@@ -12,8 +12,10 @@ public class Account {
     private boolean frozen;
     private Double interestRate;
     private int dailyTransactionLimit;
-
     private Double minimumBalance;
+
+    private boolean overdraftOptIn;
+    private Double overdraftFee;
 
     // User can have many Accounts, but each Account can only belong to one User.
     @ManyToOne
@@ -24,6 +26,8 @@ public class Account {
         this.frozen = false;
         this.interestRate = 0.0;
         this.minimumBalance = 50.00;
+        this.overdraftOptIn = false;
+        this.overdraftFee = 0.0;
     }
 
     public Account(String accountType, Double balance) {
@@ -38,10 +42,12 @@ public class Account {
         else {
             this.interestRate = 0.01;
             this.minimumBalance = 50.00;
+            this.overdraftFee = 25.00;
         }
 
         // TODO: set daily limit depending on vip, corporate
         this.dailyTransactionLimit = 5;
+        this.overdraftOptIn = false;
     }
 
     public User getUser() {
@@ -92,9 +98,29 @@ public class Account {
         this.interestRate = interestRate;
     }
 
-    public Double getMinimumBalance() { return minimumBalance; }
+    public Double getMinimumBalance() {
+        return minimumBalance;
+    }
 
-    public void setMinimumBalance(Double minimumBalance) { this.minimumBalance = minimumBalance; }
+    public void setMinimumBalance(Double minimumBalance) {
+        this.minimumBalance = minimumBalance;
+    }
+
+    public boolean isOverdraftOptIn() {
+        return overdraftOptIn;
+    }
+
+    public void setOverdraftOptIn(boolean overdraftOptIn) {
+        this.overdraftOptIn = overdraftOptIn;
+    }
+
+    public Double getOverdraftFee() {
+        return overdraftFee;
+    }
+
+    public void setOverdraftFee(Double overdraftFee) {
+        this.overdraftFee = overdraftFee;
+    }
 
     public int getDailyTransactionLimit() {
         return dailyTransactionLimit;
