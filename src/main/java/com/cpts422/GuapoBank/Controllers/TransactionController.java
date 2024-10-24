@@ -58,51 +58,6 @@ public class TransactionController {
         } catch (Exception e) {
             // TODO: display error message on frontend
         }
-//        Double amount = transaction.getAmount();
-//
-//        // calculate transfer fee
-//        Double transferFee = 0.0d;
-//        if (amount <= 500) {
-//            transferFee = amount * 0.05;
-//        }
-//        else if (amount <= 1000) {
-//            transferFee = amount * 0.04;
-//        }
-//        else if (amount <= 3000) {
-//            transferFee = amount * 0.03;
-//        }
-//        else if (amount <= 5000) {
-//            transferFee = amount * 0.025;
-//        }
-//        else {
-//            if (sender.getUser().isCorporate()) {
-//                transferFee = amount * 0.01;
-//            }
-//            else {
-//                transferFee = amount * 0.02;
-//            }
-//        }
-//
-//        if (sender.getUser().isMilitary() && sender.getUser().isVip()) {
-//            transferFee *= 0.85;
-//        }
-//        else if (sender.getUser().isMilitary()) {
-//            transferFee *= 0.90;
-//        }
-//        else if (sender.getUser().isVip()) {
-//            transferFee *= 0.90;
-//        }
-//
-//        // ideas: daily/hourly transaction limit, freeze account potentially
-//        // POS service to get money into accounts
-//        // minimum balance unless military
-//        // inbox with notif for min balance
-//
-//        sender.setBalance(sender.getBalance() - transferFee - amount);
-//        recipient.setBalance(recipient.getBalance() + amount);
-//        transaction.setSenderAccount(sender);
-//        transaction.setRecipientAccount(recipient);
-//        transactionService.save(transaction);
         return "redirect:/home";
     }
 }
