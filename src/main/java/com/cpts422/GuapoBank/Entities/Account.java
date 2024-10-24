@@ -23,11 +23,11 @@ public class Account {
         this.interestRate = 0.0;
     }
 
-    public Account(String accountType, Double balance) {
+    public Account(String accountType, Double balance, User user) {
         this.accountType = accountType;
         this.balance = balance;
         this.frozen = false;
-
+        this.user = user;
         if (this.accountType.equals("savings")) {
             this.interestRate = 0.02;
         }
@@ -35,8 +35,18 @@ public class Account {
             this.interestRate = 0.01;
         }
 
-        // TODO: set daily limit depending on vip, corporate
-        this.dailyTransactionLimit = 5;
+        if (this.user.isCorporate()) {
+            this.dailyTransactionLimit = 100;
+        }
+        else if (this.user.isVip()) {
+            this.dailyTransactionLimit = 15;
+        }
+        else if (this.user.isMilitary()) {
+            this.dailyTransactionLimit = 10;
+        }
+        else {
+            this.dailyTransactionLimit = 5;
+        }
     }
 
     public User getUser() {

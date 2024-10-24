@@ -46,9 +46,9 @@ public class InitialSetup implements CommandLineRunner {
         System.out.println(adminUser);
 
         // account generation
-        Account account1 = new Account("checking",500.00);
-        Account account2 = new Account("savings",1000.00);
-        Account account3 = new Account("checking", 100.00);
+        Account account1 = new Account("checking",500.00, normalUser);
+        Account account2 = new Account("savings",1000.00, normalUser);
+        Account account3 = new Account("checking", 100.00, normalUser2);
 
         normalUser.addAccount(account1);
         normalUser.addAccount(account2);
