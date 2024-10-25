@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+    <title>Notification Inbox</title>
+</head>
+<body>
+    <h2>Notification Inbox</h2>
+    <ul>
+        <li th:each="notification : ${notifications}">
+            <span th:text="${notification.message}"></span> -
+            <span th:if="${notification.read}"> (Read)</span>
+            <span th:unless="${notification.read}">
+                    <a th:href="@{/notifications/{id}/read(id=${notification.id})}">Mark as Read</a>
+                </span>
+        </li>
+    </ul>
+
+    <br/>
+    <a href="/home">
+        <button type="button">Back to Home</button>
+    </a>
+</body>
+</html>
