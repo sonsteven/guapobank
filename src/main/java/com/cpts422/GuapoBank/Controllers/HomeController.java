@@ -5,6 +5,7 @@ import com.cpts422.GuapoBank.Entities.Transaction;
 import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Repositories.AccountRepository;
 import com.cpts422.GuapoBank.Services.AccountService;
+import com.cpts422.GuapoBank.Services.NotificationService;
 import com.cpts422.GuapoBank.Services.TransactionService;
 import com.cpts422.GuapoBank.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +27,9 @@ public class HomeController {
     private UserService userService;
     private AccountService accountService;
     private TransactionService transactionService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public HomeController(UserService userService, AccountService accountService, TransactionService transactionService) {
         this.userService = userService;
@@ -69,6 +75,8 @@ public class HomeController {
         User user = userService.authenticate(username, password);
         if (user != null) {
             session.setAttribute("loggedInUser", user);
+            String readableLoginTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm"));
+            notificationService.sendNotification("Login at " + readableLoginTime, user);
             if (user.getRole().equals("Admin")) {
                 return "redirect:/admin/home";
             }

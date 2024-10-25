@@ -16,6 +16,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public TransactionServiceImpl(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }
@@ -104,5 +107,17 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setSenderAccount(sender);
         transaction.setRecipientAccount(recipient);
         this.save(transaction);
+        String senderAccountType = sender.getAccountType();
+        String recipientAccountType = recipient.getAccountType();
+
+        if (sender.getUser().getId().equals(recipient.getUser().getId())) {
+            // internal transfer
+            notificationService.sendNotification("Transfer of $" + amount + " from your " + senderAccountType + " account to your " + recipientAccountType + " account.", sender.getUser());
+        }
+        else {
+            // transfer between different users
+            notificationService.sendNotification("A transaction of $" + amount + " was sent from your " + senderAccountType + " account to " + recipient.getUser().getUsername() + "'s " + recipientAccountType + " account.", sender.getUser());
+            notificationService.sendNotification("Received a transaction of $" + amount + " from " + sender.getUser().getUsername() + "'s " + senderAccountType + " account to your " + recipientAccountType + " account.", recipient.getUser());
+        }
     }
 }
