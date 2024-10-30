@@ -2,13 +2,15 @@ package com.cpts422.GuapoBank.Services;
 
 import com.cpts422.GuapoBank.Entities.Account;
 import com.cpts422.GuapoBank.Entities.Transaction;
+import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Repositories.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,12 +33,17 @@ class TransactionServiceImplTest {
     @Mock
     private Account account;
 
+    @Mock
+    private User user;
+
     @BeforeEach
     void setUp() {
         transactionRepository = mock(TransactionRepository.class);
         notificationService = mock(NotificationService.class);
         transactionService = new TransactionServiceImpl(transactionRepository);
         transaction = mock(Transaction.class);
+        account = mock(Account.class);
+        user = mock(User.class);
         when(transaction.getAmount()).thenReturn(100.00d);
     }
 
@@ -80,8 +87,71 @@ class TransactionServiceImplTest {
         verify(transactionRepository, times(1)).findByRecipientAccount(account);
     }
 
+    @ParameterizedTest
+    @ValueSource(doubles = {500.00d, 1000.00d, 3000.00d, 5000.00d, 5001.00d})
+    void TestCalculateTransferFeeAmounts(double amount) {
+        when(account.getUser()).thenReturn(user);
+        when(account.getUser().isCorporate()).thenReturn(false);
+        when(account.getUser().isMilitary()).thenReturn(false);
+        when(account.getUser().isVip()).thenReturn(false);
+
+        double expectedFee = 0.0d;
+        if (amount == 500.00d) {
+            expectedFee = 25.00d;
+        }
+        else if (amount == 1000.00d) {
+            expectedFee = 40.00d;
+        }
+        else if (amount == 3000.00d) {
+            expectedFee = 90.00d;
+        }
+        else if (amount == 5000.00d) {
+            expectedFee = 125.00d;
+        }
+        else if (amount == 5001.00d) {
+            expectedFee = 100.02d;
+        }
+
+        assertEquals(expectedFee, transactionService.calculateTransferFee(account, amount), 0.01);
+    }
+
     @Test
-    void TestCalculateTransferFee() {
+    void TestCalculateTransferFeeCorporate() {
+        when(account.getUser()).thenReturn(user);
+        when(account.getUser().isCorporate()).thenReturn(true);
+        double amount = 5001.00d;
+        double expectedFee = 50.01d;
+        assertEquals(expectedFee, transactionService.calculateTransferFee(account, amount), 0.01);
+    }
+
+    @Test
+    void TestCalculateTransferFeeMilitaryAndVip() {
+        when(account.getUser()).thenReturn(user);
+        when(account.getUser().isMilitary()).thenReturn(true);
+        when(account.getUser().isVip()).thenReturn(true);
+        double amount = 100.00d;
+        double expectedFee = 4.25d;
+        assertEquals(expectedFee, transactionService.calculateTransferFee(account, amount), 0.01);
+    }
+
+    @Test
+    void TestCalculateTransferFeeMilitary() {
+        when(account.getUser()).thenReturn(user);
+        when(account.getUser().isMilitary()).thenReturn(true);
+        when(account.getUser().isVip()).thenReturn(false);
+        double amount = 100.00d;
+        double expectedFee = 4.50d;
+        assertEquals(expectedFee, transactionService.calculateTransferFee(account, amount), 0.01);
+    }
+
+    @Test
+    void TestCalculateTransferFeeVip() {
+        when(account.getUser()).thenReturn(user);
+        when(account.getUser().isMilitary()).thenReturn(false);
+        when(account.getUser().isVip()).thenReturn(true);
+        double amount = 100.00d;
+        double expectedFee = 4.50d;
+        assertEquals(expectedFee, transactionService.calculateTransferFee(account, amount), 0.01);
     }
 
     @Test
