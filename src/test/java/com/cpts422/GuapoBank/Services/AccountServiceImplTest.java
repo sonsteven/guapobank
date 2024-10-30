@@ -82,8 +82,16 @@ class AccountServiceImplTest {
 
     @Test
     void TestFindById() {
-        
+        // Stub the mock repository findById method return with an Optional of the test account.
+        Long testAccountId = 1L;
+        when(accountRepository.findById(testAccountId)).thenReturn(Optional.of(account));
 
+        // Call the test method to find the accounts by id.
+        Optional<Account> resultAccount = accountService.findById(testAccountId);
+
+        // Assert the result account is equal to the test account and verify the test method was called once.
+        assertEquals(Optional.of(account), resultAccount);
+        verify(accountRepository, times(1)).findById(testAccountId);
     }
 
 }
