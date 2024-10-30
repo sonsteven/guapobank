@@ -38,7 +38,19 @@ class AccountServiceImplTest {
     // Tests the findAll() method in the account service.
     @Test
     void TestFindAll() {
+        // Create second account for testing and expected list of accounts.
+        Account testAccount = new Account("savings", 500.0, user);
+        List<Account> expectedAccounts = Arrays.asList(account, testAccount);
 
+        // Stub the account repository findAll method to return the list of accounts.
+        when(accountRepository.findAll()).thenReturn(expectedAccounts);
+
+        // Call the account service test method.
+        Iterable<Account> result = accountService.findAll();
+
+        // Assert the result matches the expected result and verify the test method was only called once.
+        assertEquals(expectedAccounts, result);
+        verify(accountRepository, times(1)).findAll();
     }
 
     @Test
