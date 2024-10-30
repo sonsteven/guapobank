@@ -1,5 +1,6 @@
 package com.cpts422.GuapoBank.Services;
 
+import com.cpts422.GuapoBank.Entities.Account;
 import com.cpts422.GuapoBank.Entities.Transaction;
 import com.cpts422.GuapoBank.Repositories.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,9 @@ class TransactionServiceImplTest {
     @Mock
     private Transaction transaction;
 
+    @Mock
+    private Account account;
+
     @BeforeEach
     void setUp() {
         transactionRepository = mock(TransactionRepository.class);
@@ -51,17 +55,29 @@ class TransactionServiceImplTest {
         Transaction savedTransaction = new Transaction();
         when(transactionRepository.save(transaction)).thenReturn(transaction);
 
-        savedTransaction = transactionRepository.save(transaction);
+        savedTransaction = transactionService.save(transaction);
         assertEquals(savedTransaction, transaction);
         verify(transactionRepository, times(1)).save(transaction);
     }
 
     @Test
     void TestFindBySenderAccount() {
+        Iterable<Transaction> transactions = List.of(transaction);
+        when(transactionRepository.findBySenderAccount(account)).thenReturn(transactions);
+
+        Iterable<Transaction> foundTransactions = transactionService.findBySenderAccount(account);
+        assertEquals(transactions, foundTransactions);
+        verify(transactionRepository, times(1)).findBySenderAccount(account);
     }
 
     @Test
     void TestFindByRecipientAccount() {
+        Iterable<Transaction> transactions = List.of(transaction);
+        when(transactionRepository.findByRecipientAccount(account)).thenReturn(transactions);
+
+        Iterable<Transaction> foundTransactions = transactionService.findByRecipientAccount(account);
+        assertEquals(transactions, foundTransactions);
+        verify(transactionRepository, times(1)).findByRecipientAccount(account);
     }
 
     @Test
