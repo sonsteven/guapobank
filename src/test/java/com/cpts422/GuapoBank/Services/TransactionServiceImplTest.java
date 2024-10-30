@@ -1,12 +1,17 @@
 package com.cpts422.GuapoBank.Services;
 
+import com.cpts422.GuapoBank.Entities.Transaction;
 import com.cpts422.GuapoBank.Repositories.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class TransactionServiceImplTest {
 
@@ -19,13 +24,26 @@ class TransactionServiceImplTest {
     @InjectMocks
     private TransactionService transactionService;
 
+    @Mock
+    private Transaction transaction;
+
     @BeforeEach
     void setUp() {
+        transactionRepository = mock(TransactionRepository.class);
+        notificationService = mock(NotificationService.class);
+        transactionService = new TransactionServiceImpl(transactionRepository);
+        transaction = mock(Transaction.class);
+        when(transaction.getAmount()).thenReturn(100.00d);
     }
 
     @Test
     void TestFindAll() {
+        Iterable<Transaction> transactions = List.of(transaction);
+        when(transactionRepository.findAll()).thenReturn((List<Transaction>) transactions);
 
+        Iterable<Transaction> foundTransactions = transactionRepository.findAll();
+        assertEquals(transactions, foundTransactions);
+        verify(transactionRepository, times(1)).findAll();
     }
 
     @Test
