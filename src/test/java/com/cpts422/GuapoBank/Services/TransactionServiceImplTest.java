@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -154,8 +155,42 @@ class TransactionServiceImplTest {
         assertEquals(expectedFee, transactionService.calculateTransferFee(account, amount), 0.01);
     }
 
-    @Test
-    void TestIsOverDailyTransactionLimit() {
+//    @Test
+//    void TestIsOverDailyTransactionLimitTrue() {
+//        when(transaction.getTransactionDate()).thenReturn(LocalDateTime.now());
+//        Iterable<Transaction> transactions = List.of(transaction);
+//        when(transactionRepository.findBySenderAccount(account)).thenReturn(transactions);
+//        when(account.getDailyTransactionLimit()).thenReturn(1);
+//
+//        verify(transaction, times(1)).getTransactionDate();
+//        verify(transactionRepository, times(1)).findBySenderAccount(account);
+//        verify(account,times(1)).getDailyTransactionLimit();
+//    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1,2,3})
+    void TestIsOverDailyTransactionLimit(int test) {
+        if (test <= 2) {
+            when(transaction.getTransactionDate()).thenReturn(LocalDateTime.now());
+        }
+        else {
+            // not in past 24h
+            when(transaction.getTransactionDate()).thenReturn(LocalDateTime.of(2024, 10, 6, 0, 0));
+        }
+        Iterable<Transaction> transactions = List.of(transaction);
+        when(transactionRepository.findBySenderAccount(account)).thenReturn(transactions);
+
+        if (test == 1) {
+            when(account.getDailyTransactionLimit()).thenReturn(1);
+            assertTrue(transactionService.isOverDailyTransactionLimit(account));
+        }
+        else {
+            when(account.getDailyTransactionLimit()).thenReturn(2);
+            assertFalse(transactionService.isOverDailyTransactionLimit(account));
+        }
+        verify(transaction, times(1)).getTransactionDate();
+        verify(transactionRepository, times(1)).findBySenderAccount(account);
+        verify(account,times(1)).getDailyTransactionLimit();
     }
 
     @Test
