@@ -41,7 +41,7 @@ class TransactionServiceImplTest {
         Iterable<Transaction> transactions = List.of(transaction);
         when(transactionRepository.findAll()).thenReturn((List<Transaction>) transactions);
 
-        Iterable<Transaction> foundTransactions = transactionRepository.findAll();
+        Iterable<Transaction> foundTransactions = transactionService.findAll();
         assertEquals(transactions, foundTransactions);
         verify(transactionRepository, times(1)).findAll();
     }
