@@ -68,11 +68,21 @@ class AccountServiceImplTest {
 
     @Test
     void TestFindByUser() {
+        // Create list of expected accounts to stub the mock repository findByUser method return with.
+        List<Account> expectedAccounts = Arrays.asList(account);
+        when(accountRepository.findByUser(user)).thenReturn(expectedAccounts);
 
+        // Call the test method to find the accounts by the test user.
+        Iterable<Account> result = accountService.findByUser(user);
+
+        // Assert the test result accounts are equal to the expected accounts and verify the test method was called once.
+        assertEquals(expectedAccounts, result);
+        verify(accountRepository, times(1)).findByUser(user);
     }
 
     @Test
     void TestFindById() {
+        
 
     }
 
