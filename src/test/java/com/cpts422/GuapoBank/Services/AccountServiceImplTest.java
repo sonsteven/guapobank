@@ -55,7 +55,15 @@ class AccountServiceImplTest {
 
     @Test
     void TestSaveAccount() {
+        // Stub the accountRepository save method to return the test account.
+        when(accountRepository.save(account)).thenReturn(account);
 
+        // Call the test method to save the test account.
+        Account savedAccount = accountService.save(account);
+
+        // Assert that the test account is equal to the saved account, then verify the test method was only called once.
+        assertEquals(account, savedAccount);
+        verify(accountRepository, times(1)).save(account);
     }
 
     @Test
