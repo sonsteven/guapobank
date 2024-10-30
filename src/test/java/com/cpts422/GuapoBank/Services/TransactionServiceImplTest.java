@@ -48,6 +48,12 @@ class TransactionServiceImplTest {
 
     @Test
     void TestSave() {
+        Transaction savedTransaction = new Transaction();
+        when(transactionRepository.save(transaction)).thenReturn(transaction);
+
+        savedTransaction = transactionRepository.save(transaction);
+        assertEquals(savedTransaction, transaction);
+        verify(transactionRepository, times(1)).save(transaction);
     }
 
     @Test
