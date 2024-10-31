@@ -4,16 +4,13 @@ import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Services.AccountService;
 import com.cpts422.GuapoBank.Services.UserService;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.annotations.Parameter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 import java.util.Optional;
@@ -58,9 +55,11 @@ class AdminControllerTest {
             "testUser",
             "null"
     })
+    // Test for the AdminController adminHome method.
     void TestAdminHome(String userType) {
         User loggedInUser = null;
 
+        // Assign loggedInUser based on parameterized input.
         if ("testAdmin".equals(userType)) {
             loggedInUser = testAdmin;
         }
@@ -68,10 +67,13 @@ class AdminControllerTest {
             loggedInUser = testUser;
         }
 
+        // Stub the mock session getAttribute return as the loggedInUser.
         when(session.getAttribute("loggedInUser")).thenReturn(loggedInUser);
 
+        // Call the test method.
         String view = adminController.adminHome(session, model);
 
+        // Assert view is correct and model update methods are called correctly based on userType.
         if ("testAdmin".equals(userType)) {
             assertEquals("AdminHome", view);
             verify(model, times(1)).addAttribute(eq("users"), any());
@@ -80,6 +82,60 @@ class AdminControllerTest {
         else {
             assertEquals("redirect:/login", view);
             verify(model, never()).addAttribute(eq("users"), any());
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        // User type, user exists boolean, expectedView
+        "testAdmin, true, ViewUserAccounts",
+        "testAdmin, false, redirect:/admin/home",
+        "testUser, true, redirect:/login",
+        "null, true, redirect:/login"
+    })
+    // Test for the AdminController ViewUserAccounts method.
+    void TestViewUserAccounts(String userType, boolean userExists, String expectedView) {
+        User loggedInUser = null;
+        Optional<User> requestedUser = userExists ? Optional.of(testUser): Optional.empty();
+
+        // Set loggedInUser based on parameterized input.
+        if ("testAdmin".equals(userType)) {
+            loggedInUser = testAdmin;
+        }
+        else if ("testUser".equals(userType)) {
+            loggedInUser = testUser;
+        }
+
+        // Stub the mock session getAttribute method to return the loggedInUser.
+        when(session.getAttribute("loggedInUser")).thenReturn(loggedInUser);
+
+        // If testing as an admin stub the mock userService findById method to return the requestedUser.
+        if ("testAdmin".equals(userType)) {
+            when(userService.findById(1L)).thenReturn(requestedUser);
+        }
+
+        // Call the test method.
+        String view = adminController.ViewUserAccounts(1L, model, session);
+
+        // Assert that the expected view is equal to the result view.
+        assertEquals(expectedView, view);
+
+        // Verify model update methods are called accordingly based on user type and if user exists.
+        if ("testAdmin".equals(userType) && userExists) {
+            verify(model, times(1)).addAttribute("user", testUser);
+            verify(model, times(1)).addAttribute("accounts", testUser.getAccounts());
+        }
+        else {
+            verify(model, never()).addAttribute(eq("user"), any());
+            verify(model, never()).addAttribute(eq("accounts"), any());
+        }
+
+        // Verify userService method was called accordingly based on user type.
+        if ("testAdmin".equals(userType)) {
+            verify(userService, times(1)).findById(1L);
+        }
+        else {
+            verify(userService, never()).findById(any());
         }
     }
 
