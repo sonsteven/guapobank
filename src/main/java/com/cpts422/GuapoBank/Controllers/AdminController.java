@@ -108,17 +108,4 @@ public class AdminController {
         // Account does not exist, redirect to home.
         return "redirect:/admin/home";
     }
-
-    // Test method that applies one cycle of interest (monthly simple interest).
-    @GetMapping("/admin/applyInterest")
-    public String forwardTime(HttpSession session, Model model) {
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser == null || !loggedInUser.getRole().equals("Admin")) {
-            return "redirect:/login";
-        }
-
-        this.interestService.applyInterestToAll();
-
-        return "redirect:/admin/home";
-    }
 }

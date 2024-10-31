@@ -1,5 +1,6 @@
 package com.cpts422.GuapoBank.Controllers;
 
+import com.cpts422.GuapoBank.Entities.Account;
 import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Services.AccountService;
 import com.cpts422.GuapoBank.Services.UserService;
@@ -139,4 +140,109 @@ class AdminControllerTest {
         }
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "testAdmin, true, redirect:/admin/home",
+            "testAdmin, false, redirect:/admin/home",
+            "testUser, true, redirect:/login",
+            "null, true, redirect:/login"
+    })
+    // Test freezing an account.
+    void TestFreezeAccount(String userType, boolean accountExists, String expectedView) {
+        User loggedInUser = null;
+        Optional<Account> requestedAccount = accountExists ? Optional.of(new Account()) : Optional.empty();
+
+        // Determine loggedInUser based on parameterized input.
+        if ("testAdmin".equals(userType)) {
+            loggedInUser = testAdmin;
+        }
+        else if ("testUser".equals(userType)) {
+            loggedInUser = testUser;
+        }
+
+        // Stub the mock session getAttribute method to return the loggedInUser.
+        when(session.getAttribute("loggedInUser")).thenReturn(loggedInUser);
+
+        // If testing as an admin stub the mock account service findById to return the requested account.
+        if ("testAdmin".equals(userType)) {
+            when(accountService.findById(1L)).thenReturn(requestedAccount);
+        }
+
+        // Test the admin controller freeze account method.
+        String view = adminController.freezeAccount(1L, session);
+
+        // Assert expected view is equal to result view.
+        assertEquals(expectedView, view);
+
+        // Based on user type and if account exists assert and verify frozen status and account update method calls.
+        if ("testAdmin".equals(userType) && accountExists) {
+            Account account = requestedAccount.get();
+            assertTrue(account.isFrozen());
+            verify(accountService, times(1)).save(account);
+        }
+        else {
+            verify(accountService, never()).save(any());
+        }
+
+        // Based on userType verify the account service call.
+        if ("testAdmin".equals(userType)) {
+            verify(accountService, times(1)).findById(1L);
+        }
+        else {
+            verify(accountService, never()).findById(any());
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "testAdmin, true, redirect:/admin/home",
+            "testAdmin, false, redirect:/admin/home",
+            "testUser, true, redirect:/login",
+            "null, true, redirect:/login"
+    })
+        // Test unfreezing an account.
+    void TestUnfreezeAccount(String userType, boolean accountExists, String expectedView) {
+        User loggedInUser = null;
+        Optional<Account> requestedAccount = accountExists ? Optional.of(new Account()) : Optional.empty();
+
+        // Determine loggedInUser based on parameterized input.
+        if ("testAdmin".equals(userType)) {
+            loggedInUser = testAdmin;
+        }
+        else if ("testUser".equals(userType)) {
+            loggedInUser = testUser;
+        }
+
+        // Stub the mock session getAttribute method to return the loggedInUser.
+        when(session.getAttribute("loggedInUser")).thenReturn(loggedInUser);
+
+        // If testing as an admin stub the mock account service findById to return the requested account.
+        if ("testAdmin".equals(userType)) {
+            when(accountService.findById(1L)).thenReturn(requestedAccount);
+        }
+
+        // Test the admin controller freeze account method.
+        String view = adminController.unfreezeAccount(1L, session);
+
+        // Assert expected view is equal to result view.
+        assertEquals(expectedView, view);
+
+        // Based on user type and if account exists assert and verify frozen status and account update method calls.
+        if ("testAdmin".equals(userType) && accountExists) {
+            Account account = requestedAccount.get();
+            assertFalse(account.isFrozen());
+            verify(accountService, times(1)).save(account);
+        }
+        else {
+            verify(accountService, never()).save(any());
+        }
+
+        // Based on userType verify the account service call.
+        if ("testAdmin".equals(userType)) {
+            verify(accountService, times(1)).findById(1L);
+        }
+        else {
+            verify(accountService, never()).findById(any());
+        }
+    }
 }
