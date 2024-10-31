@@ -23,8 +23,14 @@ class InterestServiceImplTest {
     @Mock
     private AccountService accountService;
 
+    @Mock
+    private InterestService interestService;
+
     @InjectMocks
-    private InterestServiceImpl interestService;
+    private InterestServiceImpl interestServiceImpl;
+
+    @InjectMocks
+    private InterestScheduler interestScheduler;
 
     private User testUser;
 
@@ -45,7 +51,7 @@ class InterestServiceImplTest {
         Account testAccount = new Account(accountType, initialBalance, testUser);
         testAccount.setFrozen(isFrozen);
 
-        interestService.applyInterest(testAccount);
+        interestServiceImpl.applyInterest(testAccount);
 
         assertEquals(expectedBalance, testAccount.getBalance());
 
@@ -73,7 +79,7 @@ class InterestServiceImplTest {
         when(accountService.findAll()).thenReturn(accounts);
 
         // Call the test method to apply interest to all accounts.
-        interestService.applyInterestToAll();
+        interestServiceImpl.applyInterestToAll();
 
         // Assert that the balance of the test accounts match the expected balance.
         assertEquals(1020.0, savingsAccount1.getBalance());
@@ -86,5 +92,12 @@ class InterestServiceImplTest {
         verify(accountService, times(1)).save(savingsAccount2);
         verify(accountService, never()).save(checkingAccount);
         verify(accountService, never()).save(frozenAccount);
+    }
+
+    @Test
+    void TestScheduleInterest() {
+        interestScheduler.scheduleInterest();
+
+        verify(interestService, times(1)).applyInterestToAll();
     }
 }
