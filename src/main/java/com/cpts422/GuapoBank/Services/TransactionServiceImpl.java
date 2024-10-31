@@ -103,29 +103,20 @@ public class TransactionServiceImpl implements TransactionService {
         }
         Double amount = transaction.getAmount();
         Double transferFee = calculateTransferFee(sender, amount);
+        Double remainingBalance = sender.getBalance() - amount - transferFee;
 
         // Check if transaction will cause account to go below minimum balance.
         // Ignore if account is opted in Overdraft.
-        if (!sender.isOverdraftOptIn())
-        {
-            if (sender.getBalance() - amount - transferFee < sender.getMinimumBalance())
-            {
-                throw new Exception("Transaction will cause account to go below minimum balance.");
-            }
+
+        if (!sender.isOverdraftOptIn() && sender.getBalance() - amount - transferFee < sender.getMinimumBalance()) {
+            throw new Exception("Transaction will cause account to go below minimum balance.");
         }
 
-        // Check if transaction will make account go into overdraft.
-        if (sender.getBalance() - amount - transferFee < 0)
-        {
-            // Apply transaction with overdraft fee.
-            sender.setBalance(sender.getBalance() - transferFee - amount - sender.getOverdraftFee());
+        if (remainingBalance < 0 && sender.isOverdraftOptIn()) {
+            remainingBalance -= sender.getMinimumBalance();
+        }
 
-        }
-        else
-        {
-            // Apply transaction.
-            sender.setBalance(sender.getBalance() - transferFee - amount);
-        }
+        sender.setBalance(remainingBalance);
 
         // Update the recipient's balance.
         recipient.setBalance(recipient.getBalance() + amount);
@@ -134,6 +125,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setSenderAccount(sender);
         transaction.setRecipientAccount(recipient);
         this.save(transaction);
+
         String senderAccountType = sender.getAccountType();
         String recipientAccountType = recipient.getAccountType();
 
