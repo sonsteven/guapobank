@@ -53,6 +53,7 @@ class AccountServiceImplTest {
         verify(accountRepository, times(1)).findAll();
     }
 
+    // Tests the save() method in the account service.
     @Test
     void TestSaveAccount() {
         // Stub the accountRepository save method to return the test account.
@@ -66,6 +67,7 @@ class AccountServiceImplTest {
         verify(accountRepository, times(1)).save(account);
     }
 
+    // Tests the findByUser() method in the account service.
     @Test
     void TestFindByUser() {
         // Create list of expected accounts to stub the mock repository findByUser method return with.
@@ -80,6 +82,7 @@ class AccountServiceImplTest {
         verify(accountRepository, times(1)).findByUser(user);
     }
 
+    // Tests the findById() method in the account service.
     @Test
     void TestFindById() {
         // Stub the mock repository findById method return with an Optional of the test account.
