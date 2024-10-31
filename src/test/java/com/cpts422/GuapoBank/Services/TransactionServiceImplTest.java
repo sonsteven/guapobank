@@ -41,7 +41,7 @@ class TransactionServiceImplTest {
     void setUp() {
         transactionRepository = mock(TransactionRepository.class);
         notificationService = mock(NotificationService.class);
-        transactionService = new TransactionServiceImpl(transactionRepository);
+        transactionService = new TransactionServiceImpl(transactionRepository, notificationService);
         transaction = mock(Transaction.class);
         account = mock(Account.class);
         user = mock(User.class);
@@ -194,6 +194,46 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void TestCreateTransaction() {
+    void TestCreateTransaction() throws Exception {
+        Account account2 = mock(Account.class);
+        User user2 = mock(User.class);
+
+        when(account.getUser()).thenReturn(user);
+        when(transaction.getTransactionDate()).thenReturn(LocalDateTime.now());
+        when(account.getDailyTransactionLimit()).thenReturn(1);
+
+        // minimum balance exception
+        Exception e = assertThrows(Exception.class, () -> transactionService.createTransaction(account, account2, transaction));
+
+
+        // normal case, transfer between one user
+        when(account.getBalance()).thenReturn(1000.00d);
+
+        when(account2.getUser()).thenReturn(user);
+        when(account.getUser().getId()).thenReturn(1L);
+        when(account2.getUser().getId()).thenReturn(1L);
+        transactionService.createTransaction(account, account2, transaction);
+
+        when(account.isOverdraftOptIn()).thenReturn(true);
+        account.setOverdraftOptIn(true);
+        transactionService.createTransaction(account, account2, transaction);
+
+        // transaction with overdraft fee
+        when(transaction.getAmount()).thenReturn(9001.00d);
+        transactionService.createTransaction(account, account2, transaction);
+
+        // normal case, transfer between two users
+        when(account.getBalance()).thenReturn(1000.00d);
+
+        when(account2.getUser()).thenReturn(user2);
+        when(account.getUser().getId()).thenReturn(1L);
+        when(account2.getUser().getId()).thenReturn(2L);
+        transactionService.createTransaction(account, account2, transaction);
+
+        // daily limit exception
+        Iterable<Transaction> transactions = List.of(transaction);
+        when(transactionRepository.findBySenderAccount(account)).thenReturn(transactions);
+
+        e = assertThrows(Exception.class, () -> transactionService.createTransaction(account, account2, transaction));
     }
 }
