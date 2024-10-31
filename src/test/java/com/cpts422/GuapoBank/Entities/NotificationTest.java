@@ -2,6 +2,7 @@ package com.cpts422.GuapoBank.Entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,5 +45,16 @@ class NotificationTest {
 
         assertEquals(readStatus, notification.isRead());
         assertEquals(user, notification.getUser());
+    }
+
+    @Test
+    void test_getId() throws NoSuchFieldException, IllegalAccessException {
+        Long expectedId = 1L;
+        Field idField = Notification.class.getDeclaredField("id");
+        idField.setAccessible(true);
+        idField.set(notification, expectedId);
+        Long actualId = notification.getId();
+
+        assertEquals(expectedId, actualId);
     }
 }
