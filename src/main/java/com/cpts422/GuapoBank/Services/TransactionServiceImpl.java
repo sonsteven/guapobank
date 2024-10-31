@@ -113,7 +113,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         if (remainingBalance < 0 && sender.isOverdraftOptIn()) {
-            remainingBalance -= sender.getMinimumBalance();
+            remainingBalance -= sender.getOverdraftFee();
         }
 
         sender.setBalance(remainingBalance);
