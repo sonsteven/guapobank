@@ -8,6 +8,8 @@ import com.cpts422.GuapoBank.Services.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -95,6 +97,62 @@ class TransactionControllerTest {
 
         String controller = transactionController.createTransaction(transaction);
         verifyNoInteractions(transactionService);
+        assertEquals("redirect:/home", controller);
+    }
+
+    @Test
+    void TestCreateTransactionOverBalance() throws Exception {
+        when(senderAccount.getId()).thenReturn(1L);
+        when(recipientAccount.getId()).thenReturn(2L);
+
+        when(transaction.getSenderAccount()).thenReturn(senderAccount);
+        when(transaction.getRecipientAccount()).thenReturn(recipientAccount);
+        when(accountService.findById(senderAccount.getId())).thenReturn(Optional.of(senderAccount));
+        when(accountService.findById(recipientAccount.getId())).thenReturn(Optional.of(recipientAccount));
+
+        when(transaction.getAmount()).thenReturn(9001.00d);
+        when(senderAccount.getBalance()).thenReturn(100.00d);
+        String controller = transactionController.createTransaction(transaction);
+        verifyNoInteractions(transactionService);
+        assertEquals("redirect:/home", controller);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1,2})
+    void TestCreateTransactionFrozenAccount(int test) throws Exception {
+        when(senderAccount.getId()).thenReturn(1L);
+        when(recipientAccount.getId()).thenReturn(2L);
+
+        when(transaction.getSenderAccount()).thenReturn(senderAccount);
+        when(transaction.getRecipientAccount()).thenReturn(recipientAccount);
+        when(accountService.findById(senderAccount.getId())).thenReturn(Optional.of(senderAccount));
+        when(accountService.findById(recipientAccount.getId())).thenReturn(Optional.of(recipientAccount));
+
+        if (test == 1) {
+            when(senderAccount.isFrozen()).thenReturn(true);
+        }
+        else {
+            when(recipientAccount.isFrozen()).thenReturn(true);
+        }
+
+        String controller = transactionController.createTransaction(transaction);
+        verifyNoInteractions(transactionService);
+        assertEquals("redirect:/home", controller);
+    }
+
+    @Test
+    void TestCreateTransactionInvalidTransaction() throws Exception {
+        when(senderAccount.getId()).thenReturn(1L);
+        when(recipientAccount.getId()).thenReturn(2L);
+
+        when(transaction.getSenderAccount()).thenReturn(senderAccount);
+        when(transaction.getRecipientAccount()).thenReturn(recipientAccount);
+        when(accountService.findById(senderAccount.getId())).thenReturn(Optional.of(senderAccount));
+        when(accountService.findById(recipientAccount.getId())).thenReturn(Optional.of(recipientAccount));
+        doThrow(new Exception()).when(transactionService).createTransaction(any(), any(), any());
+
+        String controller = transactionController.createTransaction(transaction);
+        verify(transactionService, times(1)).createTransaction(any(), any(), any());
         assertEquals("redirect:/home", controller);
     }
 }
