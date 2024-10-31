@@ -51,11 +51,10 @@ class TransactionTest {
     }
 
     @Test
-    void TestGetSenderAccount() {
-    }
-
-    @Test
-    void TestSetSenderAccount() {
+    void TestGetSetSenderAccount() {
+        assertEquals(senderAccount, transaction2.getSenderAccount());
+        transaction2.setSenderAccount(recipientAccount);
+        assertEquals(recipientAccount, transaction2.getSenderAccount());
     }
 
     @Test
