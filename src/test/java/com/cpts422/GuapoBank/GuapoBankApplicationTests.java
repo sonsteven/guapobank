@@ -10,4 +10,8 @@ class GuapoBankApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void main() {
+		GuapoBankApplication.main(new String[] {});
+	}
 }
