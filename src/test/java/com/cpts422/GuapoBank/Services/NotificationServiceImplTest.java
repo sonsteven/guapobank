@@ -26,7 +26,6 @@ class NotificationServiceImplTest {
     void test_sendNotification_success() {
         String message = "Login at right now";
         User user = new User();
-        Notification notification = new Notification(message, user);
         notificationService.sendNotification(message, user);
 
         ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
