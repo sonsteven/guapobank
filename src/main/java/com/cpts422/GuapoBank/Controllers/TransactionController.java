@@ -41,22 +41,21 @@ public class TransactionController {
             recipient = recipientOpt.get();
         }
         else {
-            return "redirect:/home"; // error handling needs to be implemented
-
+            return "redirect:/home";
         }
 
         if (transaction.getAmount() > sender.getBalance()) {
-            return "redirect:/home"; // error handling needs to be implemented
+            return "redirect:/home";
         }
 
         if (sender.isFrozen() || recipient.isFrozen()) {
-            return "redirect:/home"; // error handling needs to be implemented
+            return "redirect:/home";
         }
 
         try {
             transactionService.createTransaction(sender, recipient, transaction);
         } catch (Exception e) {
-            // TODO: display error message on frontend
+
         }
         return "redirect:/home";
     }
