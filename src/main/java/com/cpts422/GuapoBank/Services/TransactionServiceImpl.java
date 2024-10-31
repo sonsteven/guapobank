@@ -19,8 +19,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private NotificationService notificationService;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -136,7 +137,7 @@ public class TransactionServiceImpl implements TransactionService {
         String senderAccountType = sender.getAccountType();
         String recipientAccountType = recipient.getAccountType();
 
-        if (sender.getUser().getId().equals(recipient.getUser().getId())) {
+        if (sender.getUser().getId() == recipient.getUser().getId()) {
             // internal transfer
             notificationService.sendNotification("Transfer of $" + amount + " from your " + senderAccountType + " account to your " + recipientAccountType + " account.", sender.getUser());
         }
