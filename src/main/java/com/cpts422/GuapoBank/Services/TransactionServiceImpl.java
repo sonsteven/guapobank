@@ -112,7 +112,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new Exception("Transaction will cause account to go below minimum balance.");
         }
 
-        if (remainingBalance < 0 && sender.isOverdraftOptIn()) {
+        if (remainingBalance < 0) {
             remainingBalance -= sender.getOverdraftFee();
         }
 
