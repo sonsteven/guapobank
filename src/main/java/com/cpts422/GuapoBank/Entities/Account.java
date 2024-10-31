@@ -40,7 +40,7 @@ public class Account {
             this.minimumBalance = 100.00;
         }
         else {
-            this.interestRate = 0.01;
+            this.interestRate = 0.0;
             this.minimumBalance = 50.00;
             this.overdraftFee = 25.00;
         }
