@@ -112,12 +112,12 @@ public class User {
         this.role = role;
     }
 
-    public void createTransaction(Double amount, Account sender, Account recipient) {
-        if (amount >= sender.getBalance()) {
-            System.out.println("Invalid transaction: cannot send more funds than you have.");
-        }
-        Transaction transaction = new Transaction(amount, sender, recipient);
-    }
+//    public void createTransaction(Double amount, Account sender, Account recipient) {
+//        if (amount >= sender.getBalance()) {
+//            System.out.println("Invalid transaction: cannot send more funds than you have.");
+//        }
+//        Transaction transaction = new Transaction(amount, sender, recipient);
+//    }
 
     @Override
     public String toString() {
