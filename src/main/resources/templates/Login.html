@@ -12,6 +12,6 @@
     <button type="submit">Login</button>
   </form>
   <!-- Display error message if login fails -->
-  <p th:if="${error}" style="color:red">Invalid Username or Password. Please try again.</p>
+  <p th:if="${error}" th:text="${error}" style="color:red"></p>
 </body>
 </html>

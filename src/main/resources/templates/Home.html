@@ -5,6 +5,8 @@
     <title>User Home</title>
 </head>
 <body>
+  <div id="notification"></div>
+
   <h2>User Home Page</h2>
   <h3>Username: <span th:text="${loggedInUser.username}"></span></h3>
   <h3>Date: <span th:text="${currentDate}"></span></h3>
@@ -44,6 +46,10 @@
       <button type="submit">Submit</button>
   </form>
 
+  <!-- Display error message if transaction fails -->
+  <p th:if="${error}" th:text="${error}" style="color:red"></p>
+  <p th:if="${success}" th:text="${success}" style="color:green"></p>
+
   <h1>Transaction History</h1>
   <table style="border: solid">
       <thead>
@@ -63,5 +69,8 @@
       </tr>
       </tbody>
   </table>
+
+
+
 </body>
 </html>
