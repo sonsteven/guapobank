@@ -165,16 +165,38 @@
 
 ### UserTest
 * TestGetSetId
+  * Tags: entities, user
+  * Validate getting and setting of user ID.
 * TestAddAccount
+  * Tags: entities, user
+  * Validate adding an account to a user.
 * TestGetSetAccounts
+  * Tags: entities, user
+  * Validate getting and setting of a list of accounts.
 * TestGetSetPassword
+  * Tags: entities, user
+  * Validate getting and setting of user password.
 * TestGetSetUsername
+  * Tags: entities, user
+  * Validate getting and setting of username.
 * TestGetSetFirstName
+  * Tags: entities, user
+  * Validate getting and setting of user first name.
 * TestGetSetLastName
+  * Tags: entities, user
+  * Validate getting and setting of user last name.
 * TestGetSetRole
+  * Tags: entities, user
+  * Validate getting and setting of user role.
 * TestIsSetVip
+  * Tags: entities, user
+  * Validate setting and checking of user VIP status.
 * TestIsSetMilitary
+  * Tags: entities, user
+  * Validate setting and checking of user military status.
 * TestIsSetCorporate
+  * Tags: entities, user
+  * Validate setting and checking of user corporate status.
 
 
 ## Services Tests
