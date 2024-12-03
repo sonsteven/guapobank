@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -25,6 +26,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
 
 // Testing class for createTransaction.
 // We chose createTransaction for our neighbourhood system under test as it is essentially
@@ -83,5 +86,24 @@ public class TransactionServiceNeighbourhoodTest {
                 eq("Received a transaction of $200.0 from Sender's checking account to your savings account."),
                 eq(recipient.getUser())
         );
+    }
+
+    @Test
+    void createTransaction_over_daily_limit() {
+        Account spySender = spy(sender);
+        doReturn(0).when(spySender).getDailyTransactionLimit(); // NOT mocking isOverDailyTransactionLimit
+        spySender.setBalance(1000.0);
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            transactionService.createTransaction(spySender, recipient, transaction);
+        });
+
+        assertEquals("Account has reached the maximum allowed amount of daily transactions.", exception.getMessage());
+
+        assertEquals(1000.0, spySender.getBalance());
+        assertEquals(500.0, recipient.getBalance());
+
+        verify(transactionRepository, never()).save(any(Transaction.class));
+        verifyNoInteractions(notificationService);
     }
 }
