@@ -158,16 +158,38 @@
 
 ### TransactionServiceImplTest
 * TestFindAll
+  * Tags: services, transaction
+  * Validate finding all transactions in the repository.
 * TestSave
+  * Tags: services, transaction
+  * Validate saving a single transaction in the repository.
 * TestFindBySenderAccount
+  * Tags: services, transaction, account
+  * Validate finding a list of transactions sent from a specific account.
 * TestFindByRecipientAccount
+  * Tags: services, transaction, account
+  * Validate finding a list of transactions that a specific account has received.
 * TestCalculateTransferFeeAmounts
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on amount transferred.
 * TestCalculateTransferFeeCorporate
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on corporate status.
 * TestCalculateTransferFeeMilitaryAndVip
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on both military and VIP status.
 * TestCalculateTransferFeeMilitary
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on military status.
 * TestCalculateTransferFeeVip
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on VIP status.
 * TestIsOverDailyTransactionLimit
+  * Tags: services, transaction
+  * Validate that the daily transaction limit of a user properly allows/disallows a new transaction.
 * TestCreateTransaction
+  * Tags: services, transaction
+  * Validate the creation of a new transaction.
 
 ### UserServiceImplTest
 * TestSuccessfulAuthenticate
