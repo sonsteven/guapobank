@@ -276,11 +276,23 @@
 
 ### UserServiceImplTest
 * TestSuccessfulAuthenticate
+  * Tags: service, user
+  * Validate a successful user authentication.
 * TestAuthenticateWrongPassword
+  * Tags: service, user
+  * Validate catching an invalid authentication using an incorrect password.
 * TestAuthenticateInvalidUser
+  * Tags: service, user
+  * Validate catching an invalid authentication using an incorrect username.
 * TestFindAll
+  * Tags: service, user
+  * Validate finding all users stored in the repository.
 * TestSave
+  * Tags: service, user
+  * Validate saving a user in the repository.
 * TestFindByIdSuccess
+  * Tags: service, user
+  * Validate a successful return of a user search by ID.
 
 
 ## SeleniumTesting
