@@ -6,6 +6,7 @@ import com.cpts422.GuapoBank.Services.AccountService;
 import com.cpts422.GuapoBank.Services.AccountServiceImpl;
 import com.cpts422.GuapoBank.Services.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.util.Optional;
 
@@ -45,9 +46,6 @@ class TransactionControllerTest {
     @Mock
     private Account recipientAccount;
 
-    @Mock
-    private RedirectAttributes redirectAttributes;
-
     @BeforeEach
     void setUp() {
     }
@@ -61,6 +59,8 @@ class TransactionControllerTest {
 
     @Test
     void TestCreateTransactionSuccess() throws Exception {
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
         when(senderAccount.getId()).thenReturn(1L);
         when(recipientAccount.getId()).thenReturn(2L);
 
@@ -76,6 +76,8 @@ class TransactionControllerTest {
 
     @Test
     void TestCreateTransactionInvalidRecipient() throws Exception {
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
         when(senderAccount.getId()).thenReturn(1L);
         when(recipientAccount.getId()).thenReturn(2L);
 
@@ -91,6 +93,8 @@ class TransactionControllerTest {
 
     @Test
     void TestCreateTransactionInvalidSender() throws Exception {
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
         when(senderAccount.getId()).thenReturn(1L);
         when(recipientAccount.getId()).thenReturn(2L);
 
@@ -106,6 +110,8 @@ class TransactionControllerTest {
 
     @Test
     void TestCreateTransactionOverBalance() throws Exception {
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
         when(senderAccount.getId()).thenReturn(1L);
         when(recipientAccount.getId()).thenReturn(2L);
 
@@ -124,6 +130,8 @@ class TransactionControllerTest {
     @ParameterizedTest
     @ValueSource(ints = {1,2})
     void TestCreateTransactionFrozenAccount(int test) throws Exception {
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
         when(senderAccount.getId()).thenReturn(1L);
         when(recipientAccount.getId()).thenReturn(2L);
 
@@ -146,6 +154,8 @@ class TransactionControllerTest {
 
     @Test
     void TestCreateTransactionInvalidTransaction() throws Exception {
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
         when(senderAccount.getId()).thenReturn(1L);
         when(recipientAccount.getId()).thenReturn(2L);
 
