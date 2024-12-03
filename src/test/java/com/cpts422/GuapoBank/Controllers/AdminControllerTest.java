@@ -142,8 +142,8 @@ class AdminControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "testAdmin, true, redirect:/admin/home",
-            "testAdmin, false, redirect:/admin/home",
+            "testAdmin, true, redirect:/admin/user/{id}/accounts",
+            "testAdmin, false, redirect:/admin/user/{id}/accounts",
             "testUser, true, redirect:/login",
             "null, true, redirect:/login"
     })
@@ -195,7 +195,7 @@ class AdminControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "testAdmin, true, redirect:/admin/home",
+            "testAdmin, true, redirect:/admin/user/{id}/accounts",
             "testAdmin, false, redirect:/admin/home",
             "testUser, true, redirect:/login",
             "null, true, redirect:/login"
