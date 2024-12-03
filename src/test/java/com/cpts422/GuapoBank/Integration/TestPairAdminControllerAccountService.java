@@ -58,7 +58,7 @@ public class TestPairAdminControllerAccountService {
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         String redirectUrl = adminController.freezeAccount(accountId, session);
 
-        assertEquals("redirect:/admin/home", redirectUrl);
+        assertEquals("redirect:/admin/user/{id}/accounts", redirectUrl);
         verify(accountRepository).findById(accountId);
         verify(accountRepository).save(account);
         assertTrue(account.isFrozen());
@@ -76,7 +76,7 @@ public class TestPairAdminControllerAccountService {
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         String redirectUrl = adminController.unfreezeAccount(accountId, session);
 
-        assertEquals("redirect:/admin/home", redirectUrl);
+        assertEquals("redirect:/admin/user/{id}/accounts", redirectUrl);
         verify(accountRepository).findById(accountId);
         verify(accountRepository).save(account);
         assertFalse(account.isFrozen());

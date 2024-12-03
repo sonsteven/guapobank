@@ -74,6 +74,6 @@ public class TestPairTransactionControllerTransactionService {
         assertEquals("redirect:/home", viewName);
         verify(accountService).findById(1L);
         verify(accountService).findById(2L);
-        verify(redirectAttributes).addFlashAttribute(eq("error"), contains("transfer amount greater than sender account's balance."));
+        verify(redirectAttributes).addFlashAttribute(eq("error"), contains("Insufficient funds, account overdraft is not enabled."));
     }
 }

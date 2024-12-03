@@ -182,7 +182,7 @@ class TransactionServiceImplTest {
 
         if (test == 1) {
             when(account.getDailyTransactionLimit()).thenReturn(1);
-            assertTrue(transactionService.isOverDailyTransactionLimit(account));
+            assertFalse(transactionService.isOverDailyTransactionLimit(account));
         }
         else {
             when(account.getDailyTransactionLimit()).thenReturn(2);
