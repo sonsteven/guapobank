@@ -42,12 +42,26 @@
 
 ### TransactionControllerTest
 * TestShowTransactionForm
+  * Tags: controller, transaction
+  * Validate transaction form appearing on Spring model.
 * TestCreateTransactionSuccess
+  * Tags: controller, transaction
+  * Validate a successful transaction creation.
 * TestCreateTransactionInvalidRecipient
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of a nonexistent recipient.
 * TestCreateTransactionInvalidSender
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of a nonexistent sender.
 * TestCreateTransactionOverBalance
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of the amount going over the account's balance.
 * TestCreateTransactionFrozenAccount
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of a frozen account.
 * TestCreateTransactionInvalidTransaction
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of an internal creation error.
 
 
 ## Entities Tests
