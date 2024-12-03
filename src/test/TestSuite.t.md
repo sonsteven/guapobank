@@ -68,13 +68,11 @@
   * Verify that attempting to mark a notification as read while not logged in redirects to the login page.
 * test_markNotificationAsRead_noNotification
   * Tags: controller, notifications, error
-  * Verify that attempting to mark a non-existent notification as read does not update any records and redirects 
-  to the notifications page.
+  * Verify that attempting to mark a non-existent notification as read does not update any records and redirects to the notifications page.
 * test_markNotificationAsRead_wrongUserNotification
   * Tags: controller, notifications, error
-  * Verify that attempting to mark a notification as read by a user who does not own it does not update the notification
-  and redirects them to the notifications page
-  
+  * Verify that attempting to mark a notification as read by a user who does not own it does not update the notification and redirects them to the notifications page
+
 ### TransactionControllerTest
 * TestShowTransactionForm
   * Tags: controller, transaction
@@ -224,7 +222,7 @@
 * TestScheduleInterest
   * Tags: services, interest
   * Validate scheduling interest application.
-  
+
 ### NotificationServiceImplTest
 * test_sendNotification_success
   * Tags: service, notification
