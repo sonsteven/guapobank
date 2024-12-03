@@ -78,11 +78,11 @@ public class AdminController {
             Account account = accountOpt.get();
             account.setFrozen(true);
             accountService.save(account);
-            return "redirect:/admin/home";
+            return "redirect:/admin/user/{id}/accounts";
         }
 
         // Account does not exist, redirect to home.
-        return "redirect:/admin/home";
+        return "redirect:/admin/user/{id}/accounts";
     }
 
     // Get request handler for unfreezing an account.
@@ -102,7 +102,7 @@ public class AdminController {
             Account account = accountOpt.get();
             account.setFrozen(false);
             accountService.save(account);
-            return "redirect:/admin/home";
+            return "redirect:/admin/user/{id}/accounts";
         }
 
         // Account does not exist, redirect to home.

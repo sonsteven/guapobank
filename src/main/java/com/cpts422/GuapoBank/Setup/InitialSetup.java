@@ -49,19 +49,24 @@ public class InitialSetup implements CommandLineRunner {
         Account account1 = new Account("checking",500.00, normalUser);
         account1.setOverdraftOptIn(true);
         Account account2 = new Account("savings",1000.00, normalUser);
-        Account account3 = new Account("checking", 100.00, normalUser2);
+        Account account3 = new Account("checking", 1000.00, normalUser2);
+        Account account4 = new Account("savings",1500.00, normalUser2);
+
 
 
         normalUser.addAccount(account1);
         normalUser.addAccount(account2);
         normalUser2.addAccount(account3);
+        normalUser2.addAccount(account4);
 
         accountRepository.save(account1);
         accountRepository.save(account2);
         accountRepository.save(account3);
+        accountRepository.save(account4);
 
         System.out.println(account1);
         System.out.println(account2);
         System.out.println(account3);
+        System.out.println(account4);
     }
 }

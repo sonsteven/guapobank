@@ -105,15 +105,14 @@ public class TransactionServiceImpl implements TransactionService {
         Double transferFee = calculateTransferFee(sender, amount);
         Double remainingBalance = sender.getBalance() - amount - transferFee;
 
-        // Check if transaction will cause account to go below minimum balance.
-        // Ignore if account is opted in Overdraft.
-
-        if (!sender.isOverdraftOptIn() && remainingBalance < sender.getMinimumBalance()) {
-            throw new Exception("Transaction will cause account to go below minimum balance.");
-        }
-
         if (remainingBalance < 0 && !sender.isOverdraftOptIn()) {
             throw new Exception("Insufficient funds, account overdraft is not enabled.");
+        }
+
+        // Check if transaction will cause account to go below minimum balance.
+        // Ignore if account is opted in Overdraft.
+        if (!sender.isOverdraftOptIn() && remainingBalance < sender.getMinimumBalance()) {
+            throw new Exception("Transaction will cause account to go below minimum balance.");
         }
 
         if (remainingBalance < 0) {
