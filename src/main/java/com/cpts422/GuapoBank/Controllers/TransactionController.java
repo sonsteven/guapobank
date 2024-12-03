@@ -46,11 +46,6 @@ public class TransactionController {
             return "redirect:/home";
         }
 
-        if (transaction.getAmount() > sender.getBalance()) {
-            redirectAttributes.addFlashAttribute("error", "Transaction failed: transfer amount greater than sender account's balance.");
-            return "redirect:/home";
-        }
-
         if (sender.isFrozen() || recipient.isFrozen()) {
             redirectAttributes.addFlashAttribute("error", "Transaction failed: one or both accounts are frozen.");
             return "redirect:/home";
