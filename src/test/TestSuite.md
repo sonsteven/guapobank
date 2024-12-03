@@ -100,10 +100,20 @@
 
 ### TransactionTest
 * TestGetSetId
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction ID.
 * TestGetSetAmount
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction amount.
 * TestGetTransactionDate
+  * Tags: entities, transaction
+  * Validate getting of transaction date.
 * TestGetSetSenderAccount
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction sender account.
 * TestGetSetRecipientAccount
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction recipient account.
 
 ### UserTest
 * TestGetSetId
