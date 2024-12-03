@@ -96,12 +96,26 @@
   
 ### TransactionControllerTest
 * TestShowTransactionForm
+  * Tags: controller, transaction
+  * Validate transaction form appearing on Spring model.
 * TestCreateTransactionSuccess
+  * Tags: controller, transaction
+  * Validate a successful transaction creation.
 * TestCreateTransactionInvalidRecipient
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of a nonexistent recipient.
 * TestCreateTransactionInvalidSender
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of a nonexistent sender.
 * TestCreateTransactionOverBalance
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of the amount going over the account's balance.
 * TestCreateTransactionFrozenAccount
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of a frozen account.
 * TestCreateTransactionInvalidTransaction
+  * Tags: controller, transaction
+  * Validate catching an invalid transaction as a result of an internal creation error.
 
 
 ## Entities Tests
@@ -165,10 +179,20 @@
 
 ### TransactionTest
 * TestGetSetId
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction ID.
 * TestGetSetAmount
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction amount.
 * TestGetTransactionDate
+  * Tags: entities, transaction
+  * Validate getting of transaction date.
 * TestGetSetSenderAccount
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction sender account.
 * TestGetSetRecipientAccount
+  * Tags: entities, transaction
+  * Validate getting and setting of transaction recipient account.
 
 ### UserTest
 * TestGetSetId
@@ -234,16 +258,38 @@
 
 ### TransactionServiceImplTest
 * TestFindAll
+  * Tags: services, transaction
+  * Validate finding all transactions in the repository.
 * TestSave
+  * Tags: services, transaction
+  * Validate saving a single transaction in the repository.
 * TestFindBySenderAccount
+  * Tags: services, transaction, account
+  * Validate finding a list of transactions sent from a specific account.
 * TestFindByRecipientAccount
+  * Tags: services, transaction, account
+  * Validate finding a list of transactions that a specific account has received.
 * TestCalculateTransferFeeAmounts
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on amount transferred.
 * TestCalculateTransferFeeCorporate
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on corporate status.
 * TestCalculateTransferFeeMilitaryAndVip
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on both military and VIP status.
 * TestCalculateTransferFeeMilitary
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on military status.
 * TestCalculateTransferFeeVip
+  * Tags: services, transaction
+  * Validate calculation of the additional transfer fee of a transaction based on VIP status.
 * TestIsOverDailyTransactionLimit
+  * Tags: services, transaction
+  * Validate that the daily transaction limit of a user properly allows/disallows a new transaction.
 * TestCreateTransaction
+  * Tags: services, transaction
+  * Validate the creation of a new transaction.
 
 ### UserServiceImplTest
 * TestSuccessfulAuthenticate
