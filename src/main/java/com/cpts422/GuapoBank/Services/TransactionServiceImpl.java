@@ -93,7 +93,7 @@ public class TransactionServiceImpl implements TransactionService {
                 transactionList.add(transaction);
             }
         }
-        return transactionList.size() >= account.getDailyTransactionLimit();
+        return transactionList.size() > account.getDailyTransactionLimit();
     }
 
     @Override
