@@ -1,6 +1,5 @@
 package com.cpts422.GuapoBank.Services;
 
-import com.cpts422.GuapoBank.*;
 import com.cpts422.GuapoBank.Entities.Account;
 import com.cpts422.GuapoBank.Entities.User;
 import com.cpts422.GuapoBank.Repositories.TransactionRepository;
@@ -12,22 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-
-import com.cpts422.GuapoBank.Entities.Account;
-import com.cpts422.GuapoBank.Entities.Transaction;
-import com.cpts422.GuapoBank.Services.AccountService;
-import com.cpts422.GuapoBank.Services.AccountServiceImpl;
-import com.cpts422.GuapoBank.Services.TransactionService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
 
 // Testing class for createTransaction.
 // We chose createTransaction for our neighbourhood system under test as it is essentially
@@ -68,6 +51,7 @@ public class TransactionServiceNeighbourhoodTest {
         transaction.setAmount(200.0);
     }
 
+    // this case tests for calculateTransferFee(), sendNotification(), and save().
     @Test
     void createTransaction_success() throws Exception {
         when(transactionRepository.save(any(Transaction.class))).thenReturn(null);
@@ -77,7 +61,9 @@ public class TransactionServiceNeighbourhoodTest {
         assertEquals(790.0, sender.getBalance());
         assertEquals(700.0, recipient.getBalance());
 
+        // this method is called from within transactionService.save()
         verify(transactionRepository, times(1)).save(transaction);
+
         verify(notificationService).sendNotification(
                 eq("A transaction of $200.0 was sent from your checking account to Recipient's savings account."),
                 eq(sender.getUser())
@@ -88,6 +74,7 @@ public class TransactionServiceNeighbourhoodTest {
         );
     }
 
+    // this case tests for isOverDailyTransactionLimit().
     @Test
     void createTransaction_over_daily_limit() {
         Account spySender = spy(sender);
