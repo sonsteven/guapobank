@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.util.Optional;
@@ -123,7 +122,6 @@ class TransactionControllerTest {
 
         when(transaction.getAmount()).thenReturn(9001.00d);
         when(senderAccount.getBalance()).thenReturn(100.00d);
-
         String controller = transactionController.createTransaction(transaction, redirectAttributes);
         verifyNoInteractions(transactionService);
         assertEquals("redirect:/home", controller);
